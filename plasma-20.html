@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Plasma Fractal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script src="./script/plasma-20.mjs" type="module"></script>
+    <script src="./script/gradient-designer.mjs" type="module"></script>
+    <script src="./script/controls.mjs" type="module"></script>
+    <style>
+        #content {
+            display: flex;
+            flex-flow: row wrap;
+            gap: 10px;
+        }
+
+        .responsive-square {
+            position: relative;
+            flex-basis: 512px;
+        }
+
+        .responsive-square::before {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+
+        interactive-plasma-fractal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 512px;
+            gap: 10px;
+        }
+
+        #control-grid {
+            display: grid;
+            grid-template-columns: max-content auto 3em;
+
+            gap: 10px;
+        }
+
+        label,
+        output {
+            justify-self: end;
+        }
+
+        .control-row {
+            display: flex;
+            flex-direction: row;
+            gap: 3px;
+
+            grid-column: span 2;
+        }
+
+        #seed-phrase {
+            flex-grow: 1;
+        }
+
+        gradient-designer {
+            width: 100%;
+            height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Plasma Fractal 20th Anniversary Edition</h1>
+    <div id="content">
+        <div class="responsive-square">
+            <interactive-plasma-fractal id="plasma" gradient-source="plasma-gradient-new" sigma-initial="0.7"
+                mu-initial="0.0" attenuation="0.45">
+            </interactive-plasma-fractal>
+        </div>
+        <div id="controls">
+            <gradient-designer id="plasma-gradient-new">
+                <gradient-stop offset="0.0" color="#009aff"></gradient-stop>
+                <gradient-stop offset="0.3" color="#9a0066"></gradient-stop>
+                <gradient-stop offset="0.5" color="#ff6600"></gradient-stop>
+                <gradient-stop offset="0.8" color="#66ff9a"></gradient-stop>
+                <gradient-stop offset="1.0" color="#009aff"></gradient-stop>
+            </gradient-designer>
+            <div id="control-grid">
+                <label for="seed-phrase">Seed phrase</label>
+                <div class="control-row">
+                    <input id="seed-phrase" type="text">
+                    <button data-target-fractal="plasma" data-action="apply-seed" data-source="seed-phrase">
+                        Apply seed
+                    </button>
+                    <button data-target-fractal="plasma" data-action="randomize-seed" data-sink="seed-phrase">
+                        Random seed
+                    </button>
+                </div>
+                <label for="stddev">&sigma;<sub>0</sub></label>
+                <input name="stddev" type="range" min="0.1" max="0.9" step="0.01" value="0.7"
+                    data-target-fractal="plasma" data-target-variable="sigma-initial">
+                <output for="stddev"></output>
+                <label for="mean">&mu;<sub>0</sub></label>
+                <input name="mean" type="range" min="-0.2" max="0.2" step="0.01" value="0.0"
+                    data-target-fractal="plasma" data-target-variable="mu-initial">
+                <output for="mean"></output>
+                <label for="attenuation">Attenuation</label>
+                <input name="attenuation" type="range" min="0.1" max="0.9" step="0.01" value="0.45"
+                    data-target-fractal="plasma" data-target-variable="attenuation">
+                <output for="attenuation"></output>
+            </div>
+        </div>
+    </div>
+    <script type="application/json" id="word-list">
+        ["about", "academic", "accident", "achieve", "address", "adequate", "administrator", "admission", "adopt",
+        "advanced", "adviser", "affect", "afford", "against", "aggressive", "aircraft", "alive", "along",
+        "alternative", "ancient", "anger", "animal", "another", "anxiety", "anybody", "anyway", "apparent",
+        "apparently", "apple", "application", "appointment", "appreciate", "argument", "arise", "arrange",
+        "arrangement", "assess", "asset", "assist", "athletic", "attend", "authority", "available", "avoid",
+        "awareness", "basket", "battery", "beautiful", "because", "behavior", "being", "belong", "below", "bench",
+        "beside", "between", "billion", "biological", "block", "blood", "border", "break", "broad", "cabin", "cable",
+        "calculate", "campaign", "capability", "captain", "carbon", "careful", "cause", "celebrity", "center",
+        "championship", "check", "chest", "circle", "claim", "clearly", "climate", "clock", "clothes", "cloud",
+        "cluster", "coach", "coalition", "collect", "combination", "comfortable", "company", "composition", "computer",
+        "confidence", "confirm", "confront", "considerable", "consultant", "consume", "contact", "contemporary",
+        "contest", "contract", "contrast", "controversy", "convention", "conventional", "convert", "cotton", "council",
+        "count", "court", "cousin", "cream", "creature", "curious", "curriculum", "damage", "danger", "dangerous",
+        "dealer", "debate", "definition", "degree", "democracy", "demonstrate", "department", "desert", "desire",
+        "despite", "destroy", "detailed", "difference", "different", "differently", "difficulty", "directly",
+        "director", "disability", "disaster", "discipline", "distinct", "distinguish", "doctor", "dramatic",
+        "dramatically", "during", "earth", "elect", "electric", "eliminate", "elsewhere", "emergency", "emotion",
+        "emphasis", "employ", "employee", "employment", "engine", "engineering", "enormous", "ensure", "environmental",
+        "episode", "equipment", "error", "escape", "essential", "exact", "examination", "example", "expansion", "expect",
+        "experience", "explain", "express", "external", "extra", "factor", "fairly", "faith", "familiar", "favorite",
+        "feature", "federal", "fiction", "fifth", "fighter", "financial", "finding", "finish", "fishing", "foreign",
+        "formation", "forward", "found", "founder", "fourth", "frequently", "friend", "fruit", "fundamental", "garage",
+        "garden", "general", "grandmother", "group", "guard", "handful", "heaven", "heavily", "heavy", "helicopter",
+        "helpful", "herself", "honey", "honor", "horse", "hunting", "ignore", "importance", "important", "include",
+        "income", "increase", "independence", "initial", "injury", "inner", "institutional", "instrument",
+        "intelligence", "interest", "invasion", "investigation", "involvement", "journey", "justice", "knowledge",
+        "lawyer", "league", "legitimate", "length", "lesson", "level", "liberal", "light", "lunch", "machine",
+        "majority", "match", "material", "mayor", "meanwhile", "measure", "media", "medicine", "meeting", "mention",
+        "metal", "miracle", "missile", "mixture", "monitor", "month", "morning", "mother", "motivation", "mount",
+        "movement", "muscle", "musical", "musician", "naked", "narrow", "nation", "national", "nature", "neighbor",
+        "network", "never", "newly", "northern", "numerous", "objective", "obviously", "occasion", "offense", "officer",
+        "online", "operation", "opponent", "opportunity", "option", "organization", "original", "other", "overall",
+        "owner", "painter", "paper", "parent", "passion", "patch", "pause", "perceive", "perception", "perfect",
+        "permit", "personality", "perspective", "philosophy", "photo", "photographer", "physician", "piano", "place",
+        "plane", "please", "pleasure", "plenty", "pocket", "point", "politics", "porch", "positive", "possibility",
+        "potential", "pound", "predict", "prescription", "present", "presentation", "press", "previously", "primary",
+        "principle", "prison", "prisoner", "privacy", "probably", "procedure", "product", "profession", "profile",
+        "proportion", "proposal", "proposed", "prospect", "public", "pursue", "quarter", "quarterback", "question",
+        "quick", "quietly", "radical", "rapidly", "rarely", "rating", "ratio", "reaction", "reading", "reason",
+        "reasonable", "recommend", "refer", "reinforce", "relief", "religious", "remember", "remind", "repeatedly",
+        "reporter", "represent", "reputation", "require", "requirement", "researcher", "resolve", "resource", "respond",
+        "response", "responsibility", "responsible", "return", "review", "revolution", "route", "sacred", "salad",
+        "satisfaction", "sauce", "scandal", "scared", "scientific", "section", "sense", "serious", "session", "several",
+        "shoot", "shopping", "shout", "shower", "shrug", "similarly", "sister", "slide", "slight", "smell", "solution",
+        "sometimes", "sound", "species", "spread", "stable", "state", "statement", "steal", "still", "storage", "storm",
+        "story", "straight", "strategy", "student", "studio", "submit", "subsequent", "succeed", "successful", "sudden",
+        "suggestion", "summer", "summit", "supply", "supporter", "suppose", "supposed", "surface", "surprise", "survey",
+        "sweep", "switch", "table", "teaspoon", "terrible", "terror", "thanks", "theater", "their", "themselves",
+        "thick", "though", "threat", "threaten", "three", "through", "ticket", "tissue", "tonight", "touch", "towards",
+        "tower", "train", "travel", "trial", "tribe", "twenty", "unknown", "useful", "utility", "value", "variable",
+        "variation", "veteran", "victim", "viewer", "virtue", "visitor", "volunteer", "weather", "weekly", "weigh",
+        "western", "whatever", "wheel", "whenever", "where", "whose", "widespread", "window", "wisdom", "woman",
+        "worker", "working", "world", "wrong", "young"]
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+---
+Language: JavaScript
+ColumnLimit: 100
+IndentWidth: 4
+BinPackArguments: false
+BinPackParameters: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: false
+SpacesInContainerLiterals: false
+...
