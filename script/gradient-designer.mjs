@@ -74,6 +74,8 @@ div.slider-container {
     width: 100%;
     height: 100%;
 
+    clip-path: padding-box inset(-20px 0px);
+
     pointer-events: none;
 }
 
@@ -158,7 +160,7 @@ div.guide-blocker {
     transform: translateX(-50%);
     transition: transform var(--slider-transition-time);
 
-    background-color: rgb(255, 255, 255);
+    background-color: var(--rail-background-color, rgb(255, 255, 255));
 
     z-index: -1;
 }
