@@ -79,7 +79,7 @@ a.undecorated {
     align-self: center;
     gap: 10px;
 
-    margin-bottom: 10px;
+    margin: 0 20px 20px 20px;
 }
 
 .content-title {
@@ -104,7 +104,7 @@ a.undecorated {
 
 @media (max-width: 1084px) {
     #app-body {
-        width: 512px;
+        max-width: 512px;
     }
 }
 
@@ -227,14 +227,14 @@ gradient-designer {
 }
 
 .content-text {
-    width: 800px;
+    max-width: 800px;
 
     margin: auto;
 }
 
 @media (max-width: 1084px) {
     .content-text {
-        width: 470px;
+        max-width: 470px;
     }
 }
 
