@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Plasma Fractal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script src="./script/plasma-20-bundle.min.js" type="module"></script>
+
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Vollkorn&family=Noto+Sans"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-start">
+            <div class="header-title">PLASMA FRACTAL</div>
+            <div class="header-subtitle">Twentieth Anniversary</div>
+        </div>
+        <div id="header-end">
+            <a class="undecorated" href="https://github.com/jseyster/plasma-20">
+                <span class="fa fa-github fa-2x"></span>
+            </a>
+        </div>
+    </div>
+    <div id="content">
+        <div class="content-title">Plasma Fractal 20th Anniversary Edition</div>
+        <div id="app-body">
+            <div class="responsive-square">
+                <interactive-plasma-fractal id="plasma" gradient-source="plasma-gradient-new" sigma-initial="0.7"
+                    mu-initial="0.0" attenuation="0.45">
+                </interactive-plasma-fractal>
+            </div>
+            <div id="controls">
+                <div id="gradient-card">
+                    <div class="gradient-title">
+                        <img src="images/palette_FILLlight_wght500_GRAD0_opsz20.svg">
+                        <span>Gradient</span>
+                    </div>
+                    <gradient-designer id="plasma-gradient-new">
+                        <gradient-stop offset="0.0" color="#009aff"></gradient-stop>
+                        <gradient-stop offset="0.3" color="#9a0066"></gradient-stop>
+                        <gradient-stop offset="0.5" color="#ff6600"></gradient-stop>
+                        <gradient-stop offset="0.8" color="#66ff9a"></gradient-stop>
+                        <gradient-stop offset="1.0" color="#009aff"></gradient-stop>
+                    </gradient-designer>
+                </div>
+                <div id="control-card">
+                    <div class="controls-title">
+                        <img src="images/tune_FILLlight_wght500_GRAD0_opsz20.svg">
+                        <span>Parameters</span>
+                    </div>
+                    <div class="mdc-text-field mdc-text-field--outlined" style="flex-grow: 1;">
+                        <input class="mdc-text-field__input" id="seed-phrase">
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                                <label for="seed-phrase" class="mdc-floating-label">Seed phrase</label>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+                    <div class="button-row">
+                        <button class="mdc-button mdc-button--outlined" data-target-fractal="plasma"
+                            data-action="apply-seed" data-source="seed-phrase"> <span class="mdc-button__ripple"></span>
+                            Apply</button>
+                        <button class="mdc-button mdc-button--outlined" data-target-fractal="plasma"
+                            data-action="randomize-seed" data-sink="seed-phrase"> <span
+                                class="mdc-button__ripple"></span>
+                            Random</button>
+                    </div>
+                    <div class="slider-grid">
+                        <label for="stddev">&sigma;<sub>0</sub></label>
+                        <input name="stddev" type="range" min="0.1" max="0.9" step="0.01" value="0.7"
+                            data-target-fractal="plasma" data-target-variable="sigma-initial">
+                        <output for="stddev"></output>
+                        <label for="mean">&mu;<sub>0</sub></label>
+                        <input name="mean" type="range" min="-0.2" max="0.2" step="0.01" value="0.0"
+                            data-target-fractal="plasma" data-target-variable="mu-initial">
+                        <output for="mean"></output>
+                        <label for="attenuation">Attenuation</label>
+                        <input name="attenuation" type="range" min="0.1" max="0.9" step="0.01" value="0.45"
+                            data-target-fractal="plasma" data-target-variable="attenuation">
+                        <output for="attenuation"></output>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content-footer">
+            <div class="content-text">
+                <div class="content-heading">Seed phrase</div>
+                <span>
+                    Each plasma fractal is randomly generated starting with a "seed" value. If you get a pattern you
+                    like, you can get the same result by starting with the same seed. To make it easier to save and
+                    share seed values, you can input any text phrase as a seed value.
+                </span>
+                <div class="content-heading">Parameters</div>
+                <p>
+                    The algorithm that generates a plasma fractal starts with a smooth gradient based on randomly chosen
+                    color values for each of the four corners. It then perturbs this gradient in a recursive process
+                    where each step randomly "displaces" the color value in the center of the gradient, divides the
+                    gradient into four quadrants, and applies the recursion to each quadrant.
+                </p>
+                <p>
+                    Three parameters control the Gaussian distribution used to choose the random displacement.
+                </p>
+                <dl class="parameter-table">
+                    <dt>&sigma;<sub>0</sub>:</dt>
+                    <dd>
+                        The standard deviation used for the initial random displacement. Larger values make large
+                        displacements more likely, resulting in bigger peaks and valleys.
+                    </dd>
+                    <dt>&mu;<sub>0</sub>:</dt>
+                    <dd>
+                        The mean used for the initial random displacement. Positive values bias the result in favor or
+                        using higher color values, and lower values do the opposite. Using 0 results in the most even
+                        overall distribution of colors.
+                    </dd>
+                    <dt>Attenuation:</dt>
+                    <dd>
+                        Each level of recursion attenuates the standard deviation and mean values used for the random
+                        choice of displacement, so that the algorithm starts with large changes and finishes with small
+                        adjustments. Stronger attenuation results in a smoother fractal, and weaker attenuation results
+                        in a bumpier fractal. Note that the scale is reversed, and higher values for this parameter
+                        result in <em>less</em> attenuation.
+                    </dd>
+                </dl>
+                <div class="content-heading">About</div>
+                <p>
+                    It's been my pleasure to celebrate 20 years of random displacement with you. The
+                    <a href="http://jseyster.github.io/plasmafractal/">original project page</a> is still available and
+                    discusses the algorithm in more detail. The
+                    <a href="https://github.com/jseyster/plasma-20/blob/master/README.md">README for this update</a>
+                    discusses some of my motivations for the project. The
+                    <a href="https://github.com/jseyster/plasma-20">full source code</a> is available under a
+                    <a href="https://github.com/jseyster/plasma-20/blob/master/LICENSE.txt">permissive OSI license</a>,
+                    and you are welcome to experiment with it.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script>
+        for (rippleTarget of document.querySelectorAll('.mdc-button')) {
+            mdc.ripple.MDCRipple.attachTo(rippleTarget);
+        }
+        try {
+            // Place text in the "seed phrase" text box so that it initializes as non-empty when set
+            // it up as a Material Design Web component, which moves the label out of the interior
+            // text box and up to the top border.
+            document.getElementById('seed-phrase').setAttribute('value', 'x');
+            for (textField of document.querySelectorAll('.mdc-text-field')) {
+                mdc.textField.MDCTextField.attachTo(textField);
+            }
+        } finally {
+            // Remove the temporary text that we put in the "seed phrase" text box. Our controller
+            // code will initialize the text with a random phrase later on.
+            document.getElementById('seed-phrase').setAttribute('value', '');
+        }
+    </script>
+    <script type="application/json" id="word-list">
+        ["about", "academic", "accident", "achieve", "address", "adequate", "administrator", "admission", "adopt",
+        "advanced", "adviser", "affect", "afford", "against", "aggressive", "aircraft", "alive", "along",
+        "alternative", "ancient", "anger", "animal", "another", "anxiety", "anybody", "anyway", "apparent",
+        "apparently", "apple", "application", "appointment", "appreciate", "argument", "arise", "arrange",
+        "arrangement", "assess", "asset", "assist", "athletic", "attend", "authority", "available", "avoid",
+        "awareness", "basket", "battery", "beautiful", "because", "behavior", "being", "belong", "below", "bench",
+        "beside", "between", "billion", "biological", "block", "blood", "border", "break", "broad", "cabin", "cable",
+        "calculate", "campaign", "capability", "captain", "carbon", "careful", "cause", "celebrity", "center",
+        "championship", "check", "chest", "circle", "claim", "clearly", "climate", "clock", "clothes", "cloud",
+        "cluster", "coach", "coalition", "collect", "combination", "comfortable", "company", "composition", "computer",
+        "confidence", "confirm", "confront", "considerable", "consultant", "consume", "contact", "contemporary",
+        "contest", "contract", "contrast", "controversy", "convention", "conventional", "convert", "cotton", "council",
+        "count", "court", "cousin", "cream", "creature", "curious", "curriculum", "damage", "danger", "dangerous",
+        "dealer", "debate", "definition", "degree", "democracy", "demonstrate", "department", "desert", "desire",
+        "despite", "destroy", "detailed", "difference", "different", "differently", "difficulty", "directly",
+        "director", "disability", "disaster", "discipline", "distinct", "distinguish", "doctor", "dramatic",
+        "dramatically", "during", "earth", "elect", "electric", "eliminate", "elsewhere", "emergency", "emotion",
+        "emphasis", "employ", "employee", "employment", "engine", "engineering", "enormous", "ensure", "environmental",
+        "episode", "equipment", "error", "escape", "essential", "exact", "examination", "example", "expansion", "expect",
+        "experience", "explain", "express", "external", "extra", "factor", "fairly", "faith", "familiar", "favorite",
+        "feature", "federal", "fiction", "fifth", "fighter", "financial", "finding", "finish", "fishing", "foreign",
+        "formation", "forward", "found", "founder", "fourth", "frequently", "friend", "fruit", "fundamental", "garage",
+        "garden", "general", "grandmother", "group", "guard", "handful", "heaven", "heavily", "heavy", "helicopter",
+        "helpful", "herself", "honey", "honor", "horse", "hunting", "ignore", "importance", "important", "include",
+        "income", "increase", "independence", "initial", "injury", "inner", "institutional", "instrument",
+        "intelligence", "interest", "invasion", "investigation", "involvement", "journey", "justice", "knowledge",
+        "lawyer", "league", "legitimate", "length", "lesson", "level", "liberal", "light", "lunch", "machine",
+        "majority", "match", "material", "mayor", "meanwhile", "measure", "media", "medicine", "meeting", "mention",
+        "metal", "miracle", "missile", "mixture", "monitor", "month", "morning", "mother", "motivation", "mount",
+        "movement", "muscle", "musical", "musician", "naked", "narrow", "nation", "national", "nature", "neighbor",
+        "network", "never", "newly", "northern", "numerous", "objective", "obviously", "occasion", "offense", "officer",
+        "online", "operation", "opponent", "opportunity", "option", "organization", "original", "other", "overall",
+        "owner", "painter", "paper", "parent", "passion", "patch", "pause", "perceive", "perception", "perfect",
+        "permit", "personality", "perspective", "philosophy", "photo", "photographer", "physician", "piano", "place",
+        "plane", "please", "pleasure", "plenty", "pocket", "point", "politics", "porch", "positive", "possibility",
+        "potential", "pound", "predict", "prescription", "present", "presentation", "press", "previously", "primary",
+        "principle", "prison", "prisoner", "privacy", "probably", "procedure", "product", "profession", "profile",
+        "proportion", "proposal", "proposed", "prospect", "public", "pursue", "quarter", "quarterback", "question",
+        "quick", "quietly", "radical", "rapidly", "rarely", "rating", "ratio", "reaction", "reading", "reason",
+        "reasonable", "recommend", "refer", "reinforce", "relief", "religious", "remember", "remind", "repeatedly",
+        "reporter", "represent", "reputation", "require", "requirement", "researcher", "resolve", "resource", "respond",
+        "response", "responsibility", "responsible", "return", "review", "revolution", "route", "sacred", "salad",
+        "satisfaction", "sauce", "scandal", "scared", "scientific", "section", "sense", "serious", "session", "several",
+        "shoot", "shopping", "shout", "shower", "shrug", "similarly", "sister", "slide", "slight", "smell", "solution",
+        "sometimes", "sound", "species", "spread", "stable", "state", "statement", "steal", "still", "storage", "storm",
+        "story", "straight", "strategy", "student", "studio", "submit", "subsequent", "succeed", "successful", "sudden",
+        "suggestion", "summer", "summit", "supply", "supporter", "suppose", "supposed", "surface", "surprise", "survey",
+        "sweep", "switch", "table", "teaspoon", "terrible", "terror", "thanks", "theater", "their", "themselves",
+        "thick", "though", "threat", "threaten", "three", "through", "ticket", "tissue", "tonight", "touch", "towards",
+        "tower", "train", "travel", "trial", "tribe", "twenty", "unknown", "useful", "utility", "value", "variable",
+        "variation", "veteran", "victim", "viewer", "virtue", "visitor", "volunteer", "weather", "weekly", "weigh",
+        "western", "whatever", "wheel", "whenever", "where", "whose", "widespread", "window", "wisdom", "woman",
+        "worker", "working", "world", "wrong", "young"]
+    </script>
+</body>
+
+</html>

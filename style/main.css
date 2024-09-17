@@ -1,0 +1,268 @@
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin: 0;
+
+    --mdc-theme-primary: #2a374a;
+    --mdc-outlined-button-label-text-color: #2a374a;
+}
+
+p, dl, dt, dd {
+    display: block;
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+}
+
+dt {
+    font-weight: bold;
+
+    justify-self: right;
+}
+
+#header {
+    display: flex;
+    flex-flow: row;
+
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #2a374a;
+    width: 100%;
+
+    color: #fAfAf8;
+}
+
+#header-start {
+    padding: 10px;
+}
+
+#header-end {
+    padding: 10px;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: none;
+
+    color: #496083;
+}
+
+a:visited {
+    color: #2a374a;
+}
+
+a:hover {
+    color: #7c93b6;
+}
+
+a.undecorated {
+    color: inherit;
+    text-decoration: none;
+}
+
+.header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: xx-large;
+}
+
+.header-subtitle {
+    font-family: 'Vollkorn', serif;
+}
+
+#content {
+    display: inline-flex;
+    flex-flow: column;
+    align-items: stretch;
+    align-self: center;
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+.content-title {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: x-large;
+
+    padding: 10px;
+
+    color: #fAfAf8;
+
+    background-color: #aaacbf;
+    border-radius: 6px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+#app-body {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+@media (max-width: 1084px) {
+    #app-body {
+        width: 512px;
+    }
+}
+
+.responsive-square {
+    position: relative;
+    flex-basis: 512px;
+
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.responsive-square::before {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+interactive-plasma-fractal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 512px;
+    gap: 10px;
+
+    font-family: 'Noto Sans', sans-serif;
+}
+
+#control-card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+
+    color: #fAfAf8;
+
+    background-color: #aaacbf;
+    border-radius: 6px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+label,
+output {
+    justify-self: end;
+}
+
+.controls-title {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 5px;
+}
+
+.slider-grid {
+    display: grid;
+    grid-template-columns: max-content auto 3em;
+
+    margin-top: 15px;
+
+    gap: 10px;
+}
+
+#seed-phrase {
+    flex-grow: 1;
+}
+
+#gradient-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0 15px 0;
+
+    background-color: #aaacbf;
+    --rail-background-color: #aaacbf;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.gradient-title {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-items: center;
+
+    margin-left: 20px;
+    margin-bottom: 15px;
+
+    color: #fAfAf8;
+    font-family: Noto Sans;
+}
+
+gradient-designer {
+    width: 100%;
+    height: 70px;
+
+    z-index: 1000000000;
+}
+
+#content-footer {
+    padding: 10px;
+
+    color: #fAfAf8;
+
+    background-color: #acc0ab;
+
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.content-text {
+    width: 800px;
+
+    margin: auto;
+}
+
+@media (max-width: 1084px) {
+    .content-text {
+        width: 470px;
+    }
+}
+
+.content-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: x-large;
+}
+
+.content-heading:not(:first-child) {
+    margin-top: 1lh;
+}
+
+p + p {
+    margin-top: 1lh;
+}
+
+.parameter-table {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 10px;
+
+    margin: 0 3em;
+}
+
+.mdc-text-field--focused .mdc-floating-label {
+    color: #2a374a !important;
+}
+
+.mdc-text-field__input {
+    color: #fAfAf8 !important;
+}
