@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Justin Seyster
+ * Copyright 2024 Justin Seyster
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the “Software”), to deal in
@@ -25,6 +25,19 @@ const kShaderProgramResource = 2;
 const kFloat32ArrayResource = 3;
 const kRGBATextureResource = 4;
 const kF32TextureResource = 5;
+
+/**
+ * 🫠
+ */
+function checkForiDeviceThatMayAdvertiseFloat32CapabilityThatItActuallyDoesNotSupport() {
+    // My iPad Pro not only lies that it supports EXT_color_buffer_float; it also says that it's an
+    // Intel Mac. Apparently, only iPads have a "standalone" property in window.navigator, so that's
+    // the best way I have to check for devices with this bug.
+    // https://stackoverflow.com/questions/57765958/how-to-detect-ipad-and-ipad-os-version-in-ios-13-and-up
+    return /^i(Pad|Phone|Pod)/.test(window.navigator?.platform) ||
+           (/MacIntel/.test(window.navigator?.platform) &&
+            typeof window.navigator.standalone !== "undefined");
+}
 
 export class GLContext {
     static get fragmentShaderResourceType() {
@@ -65,6 +78,18 @@ export class GLContext {
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.clearDepth(1.0);
 
+        if (!checkForiDeviceThatMayAdvertiseFloat32CapabilityThatItActuallyDoesNotSupport() &&
+            this.gl.getExtension("EXT_color_buffer_float")) {
+            this.singleChannelFloatFormat = this.gl.R32F;
+            this.floatType = this.gl.FLOAT;
+        } else if (this.gl.getExtension("EXT_color_buffer_half_float")) {
+            this.singleChannelFloatFormat = this.gl.R16F;
+            this.floatType = this.gl.HALF_FLOAT;
+        } else {
+            this.singleChannelFloatFormat = null;
+            this.floatType = null;
+        }
+
         this.resizeHandler = null;
         this.resizeObserver = new ResizeObserver(entries => {
             for (let entry of entries) {
@@ -98,7 +123,7 @@ export class GLContext {
 
     drawToTexture(resourceType, width, height, drawFunction) {
         if (kF32TextureResource === resourceType &&
-            !this.gl.getExtension("EXT_color_buffer_float")) {
+            (this.singleChannelFloatFormat === null || this.floatType === null)) {
             return null;
         }
 
@@ -277,7 +302,7 @@ export class GLContext {
             case kRGBATextureResource:
                 return [this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE];
             case kF32TextureResource:
-                return [this.gl.R32F, this.gl.RED, this.gl.FLOAT];
+                return [this.singleChannelFloatFormat, this.gl.RED, this.floatType];
             }
         })();
         this.gl.texImage2D(
